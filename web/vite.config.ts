@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -5,6 +6,9 @@ import react from '@vitejs/plugin-react';
 // dev では /api と /audio をバックエンドへ中継する。
 export default defineConfig({
   plugins: [react()],
+  test: {
+    setupFiles: ['./src/test-setup.ts'],
+  },
   server: {
     proxy: {
       '/api': 'http://127.0.0.1:8000',

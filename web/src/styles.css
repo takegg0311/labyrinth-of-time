@@ -116,6 +116,8 @@ body {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
+  /* 問題文以外の列が折り返さない幅を確保する */
+  min-width: 40rem;
 }
 
 .review__table th,
@@ -135,11 +137,24 @@ body {
 .review__no {
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+  width: 2.5rem;
+}
+
+/* 余りは問題文の列（2 列目）へ寄せ、残りは内容の幅に合わせる */
+.review__table td:nth-child(2) {
+  width: 100%;
+}
+
+.review__table td:nth-child(3),
+.review__table th:nth-child(3) {
+  white-space: nowrap;
 }
 
 .review__answer {
   color: var(--accent);
   font-weight: 600;
+  /* 正解は横に並べて読むものなので折り返さない */
+  white-space: nowrap;
 }
 
 .review__transcript--pending {
