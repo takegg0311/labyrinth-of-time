@@ -38,8 +38,14 @@ npm install
 uv sync --project server
 ```
 
-サンプルの問題は 1 問しか含まれていない。1 ゲームには 12 問が要るので、
-自分で問題データを用意する（[docs/quiz-data.md](docs/quiz-data.md)）。
+問題データを用意する。サンプルの 1 ゲーム分（12 問）が含まれているので、
+まずはこれをコピーすればそのまま遊べる。
+
+```bash
+cp quiz_data/questions_example.csv quiz_data/questions.csv
+```
+
+自分で問題を追加する手順は [docs/quiz-data.md](docs/quiz-data.md) を参照する。
 
 API キーを設定する。
 

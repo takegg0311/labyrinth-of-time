@@ -12,11 +12,16 @@ __pycache__/
 .env
 
 # 問題データの実体はリポジトリに含めない。
-# 形式のサンプルとして questions_example.csv と 1 問分の音声のみ追跡する。
+# ただしサンプルとして questions_example.csv と、対応する 1 ゲーム分
+# （20001204 の 12 問）の音声を追跡する。clone しただけで実際に遊べる
+# 状態にしておくと、動作確認に自分で音声を用意せずに済む。
 quiz_data/*
 !quiz_data/questions_example.csv
-!quiz_data/20260820/
-quiz_data/20260820/*
-!quiz_data/20260820/0-20260820.wav
-!quiz_data/20260820/0-20260820.txt
+!quiz_data/20001204/
+quiz_data/20001204/*
+!quiz_data/20001204/*.wav
+!quiz_data/20001204/*.txt
+# VOICEPEAK のプロジェクトファイルと全体出力は使わないので追跡しない
+quiz_data/20001204/20001204.txt
+quiz_data/20001204/*.vpp
 *.tsbuildinfo
