@@ -57,6 +57,10 @@ body {
   border-radius: 0.5rem;
   background: #2a1416;
   color: #fca5a5;
+  /* 復旧手順のコマンドを含むため、改行と字下げをそのまま出す */
+  white-space: pre-wrap;
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .button {

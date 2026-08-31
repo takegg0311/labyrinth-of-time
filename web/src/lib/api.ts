@@ -23,22 +23,57 @@ export type AnswerEntry = {
   answers: string[];
 };
 
-export async function fetchQuestions(): Promise<Question[]> {
-  const response = await fetch('/api/questions');
-  if (!response.ok) {
-    throw new Error(`問題を取得できませんでした (${response.status})`);
+/** バックエンドが起動していないときに出す案内 */
+const BACKEND_DOWN =
+  'バックエンドに接続できません。別のターミナルで次を実行してください:\n' +
+  '  uv run --directory server uvicorn app.main:app --port 8000';
+
+/**
+ * バックエンドへの GET をまとめる。
+ *
+ * dev では Vite のプロキシ越しに叩くため、バックエンドが起動していなくても
+ * fetch 自体は成功し、プロキシが 500 を返す。状態コードだけでは
+ * 「サーバが落ちている」と「サーバがエラーを返した」を区別できない。
+ *
+ * プロキシの 500 は本文が空になる（実測で確認）。バックエンドが自分で返す
+ * エラーは FastAPI が JSON を載せるため、本文の有無で振り分けられる。
+ */
+async function getJson<T>(path: string, label: string): Promise<T> {
+  let response: Response;
+  try {
+    response = await fetch(path);
+  } catch {
+    // プロキシを介さない構成では、接続失敗がここに来る
+    throw new Error(BACKEND_DOWN);
   }
-  const payload = (await response.json()) as { questions: Question[] };
+
+  if (!response.ok) {
+    const detail = await response.text().catch(() => '');
+    if (response.status === 500 && detail.trim() === '') {
+      throw new Error(BACKEND_DOWN);
+    }
+    throw new Error(
+      detail.trim() === '' ? `${label} (${response.status})` : `${label} (${response.status}): ${detail}`,
+    );
+  }
+
+  return (await response.json()) as T;
+}
+
+export async function fetchQuestions(): Promise<Question[]> {
+  const payload = await getJson<{ questions: Question[] }>(
+    '/api/questions',
+    '問題を取得できませんでした',
+  );
   return payload.questions;
 }
 
 /** 答え合わせ用の正解。出題中は呼ばない。 */
 export async function fetchAnswers(): Promise<AnswerEntry[]> {
-  const response = await fetch('/api/answers');
-  if (!response.ok) {
-    throw new Error(`正解を取得できませんでした (${response.status})`);
-  }
-  const payload = (await response.json()) as { answers: AnswerEntry[] };
+  const payload = await getJson<{ answers: AnswerEntry[] }>(
+    '/api/answers',
+    '正解を取得できませんでした',
+  );
   return payload.answers;
 }
 
