@@ -54,7 +54,7 @@ cp server/.env.example server/.env
 バックエンドを起動する。
 
 ```bash
-uv run --project server uvicorn app.main:app --port 8000
+uv run --directory server uvicorn app.main:app --port 8000
 ```
 
 問題データに不備があれば、ここで理由を表示して起動が止まる。
@@ -83,7 +83,7 @@ http://localhost:5273 を開き、「スタート」を押す。
 ## テスト
 
 ```bash
-uv run --project server pytest
+uv run --directory server pytest
 ```
 
 ```bash
