@@ -1,0 +1,26 @@
+[project]
+name = "labyrinth-of-time-server"
+version = "0.1.0"
+description = "タイムショック形式クイズのバックエンド"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.34",
+    "python-dotenv>=1.0",
+    "python-multipart>=0.0.20",
+    "openai>=1.60",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "httpx>=0.28",
+    "pytest-timeout>=2.4.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+timeout = 15
+
+[tool.uv]
+package = false

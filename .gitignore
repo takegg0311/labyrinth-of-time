@@ -1,0 +1,22 @@
+node_modules/
+dist/
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# 環境変数（API キー）
+.env
+
+# 問題データの実体はリポジトリに含めない。
+# 形式のサンプルとして questions_example.csv と 1 問分の音声のみ追跡する。
+quiz_data/*
+!quiz_data/questions_example.csv
+!quiz_data/20260820/
+quiz_data/20260820/*
+!quiz_data/20260820/0-20260820.wav
+!quiz_data/20260820/0-20260820.txt
+*.tsbuildinfo
